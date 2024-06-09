@@ -56,10 +56,10 @@ class OpenWeatherAPI:
         ) as the_file:
 
             for lat, lon in zip(self.latList, self.lonList):
-                responce = requests.get(
+                response = requests.get(
                     self.API_URL.format(str(lat)[:9], str(lon)[:9], self.api_key)
                 )
-                responceJson = responce.json()
+                responceJson = response.json()
                 line = self.string_format(responceJson)
 
                 the_file.write(line + "\n")
