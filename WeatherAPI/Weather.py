@@ -1,3 +1,4 @@
+import argparse
 import os
 
 import requests
@@ -15,17 +16,6 @@ class OpenWeatherAPI:
     lonList = None
     latList = None
 
-    header_List = (
-        "lat",
-        "lon",
-        "temp",
-        "pressure",
-        "humidity",
-        "uvi",
-        "wind_speed",
-        "wind_deg",
-        "wind_gust",
-    )
     API_URL = "http://api.openweathermap.org/data/2.5/weather?lat={0}&lon={1}&appid={2}"
 
     def __init__(self, lat_range, lon_range, output_dir, table_name, api_key=API_KEY):
@@ -77,8 +67,34 @@ class OpenWeatherAPI:
 
 
 def main():
-    weather = OpenWeatherAPI([40, 44], [32, 36], "TestData", "testOne")
-    weather.build_lat_lon_list(100).make_weathercall()
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--Demo", "--D", default="N", help="Path to input file")
+    parser.add_argument("--LatStart", "--Lat1", help="Path to input file")
+    parser.add_argument("--LatEnd", "--Lat2", help="Path to input file config")
+    parser.add_argument("--LonStart", "--Lon1", help="OutPut table name")
+    parser.add_argument("--TableInfo", "--Lon2", help="OutPut table information")
+    parser.add_argument("--OutputDir", "--O", help="OutPut table information")
+    parser.add_argument("--FileName", "--F", help="OutPut table information")
+    parser.add_argument("--Number", "--N", help="OutPut table information")
+
+    args = parser.parse_args()
+    if args.Demo == "Y":
+        weather = OpenWeatherAPI(
+            [random, args.LatEnd],
+            [args.LonStart, args.LonEnd],
+            args.OutputDir,
+            args.FileName,
+        )
+        weather.build_lat_lon_list(args.Number).make_weathercall()
+    else:
+        weather = OpenWeatherAPI(
+            [args.LatStart, args.LatEnd],
+            [args.LonStart, args.LonEnd],
+            args.OutputDir,
+            args.FileName,
+        )
+        weather.build_lat_lon_list(args.Number).make_weathercall()
 
 
 if __name__ == "__main__":
